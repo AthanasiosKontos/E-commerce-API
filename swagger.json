@@ -1,0 +1,353 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "E-commerce API",
+      "description": "API documentation for the E-commerce application"
+    },
+    "host": "localhost:3000",
+    "basePath": "/api",
+    "schemes": ["http"],
+    "paths": {
+      "/users": {
+        "get": {
+          "summary": "Retrieve a list of users",
+          "responses": {
+            "200": {
+              "description": "A list of users",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer", "example": 1 },
+                    "name": { "type": "string", "example": "John Doe" },
+                    "email": { "type": "string", "example": "johndoe@example.com" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/{userId}": {
+        "get": {
+          "summary": "Retrieve a specific user",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "userId",
+              "required": true,
+              "description": "ID of the user to retrieve",
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A user object",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer", "example": 1 },
+                  "name": { "type": "string", "example": "John Doe" },
+                  "email": { "type": "string", "example": "johndoe@example.com" }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found"
+            }
+          }
+        }
+      },
+      "/products": {
+        "get": {
+          "summary": "Retrieve a list of products",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "category",
+              "required": false,
+              "description": "ID of the category to filter products by",
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of products",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer", "example": 1 },
+                    "name": { "type": "string", "example": "Sample Product" },
+                    "description": { "type": "string", "example": "This is a sample product" },
+                    "price": { "type": "number", "format": "float", "example": 29.99 },
+                    "stock": { "type": "integer", "example": 100 },
+                    "category_id": { "type": "integer", "example": 1 }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/products/{productId}": {
+        "get": {
+          "summary": "Retrieve a specific product",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "productId",
+              "required": true,
+              "description": "ID of the product to retrieve",
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A product object",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer", "example": 1 },
+                  "name": { "type": "string", "example": "Sample Product" },
+                  "description": { "type": "string", "example": "This is a sample product" },
+                  "price": { "type": "number", "format": "float", "example": 29.99 },
+                  "stock": { "type": "integer", "example": 100 },
+                  "category_id": { "type": "integer", "example": 1 }
+                }
+              }
+            },
+            "404": {
+              "description": "Product not found"
+            }
+          }
+        }
+      },
+      "/cart": {
+        "post": {
+          "summary": "Create a new cart",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "description": "Cart object",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_id": { "type": "integer", "example": 1 }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Cart created successfully",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer", "example": 1 },
+                  "user_id": { "type": "integer", "example": 1 },
+                  "created_at": { "type": "string", "format": "date-time", "example": "2024-06-18T13:28:18.646Z" },
+                  "updated_at": { "type": "string", "format": "date-time", "example": "2024-06-18T13:28:18.646Z" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/cart/{cartId}": {
+        "post": {
+          "summary": "Add a product to the cart",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "cartId",
+              "required": true,
+              "description": "ID of the cart",
+              "type": "integer"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "description": "Cart item object",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productId": { "type": "integer", "example": 1 },
+                  "quantity": { "type": "integer", "example": 2 }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Product added to cart",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer", "example": 1 },
+                  "cart_id": { "type": "integer", "example": 1 },
+                  "product_id": { "type": "integer", "example": 1 },
+                  "quantity": { "type": "integer", "example": 2 },
+                  "created_at": { "type": "string", "format": "date-time", "example": "2024-06-18T13:28:18.646Z" },
+                  "updated_at": { "type": "string", "format": "date-time", "example": "2024-06-18T13:28:18.646Z" }
+                }
+              }
+            }
+          }
+        },
+        "get": {
+          "summary": "Retrieve the contents of a specific cart",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "cartId",
+              "required": true,
+              "description": "ID of the cart to retrieve",
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A cart object",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer", "example": 1 },
+                  "user_id": { "type": "integer", "example": 1 },
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "example": 1 },
+                        "product_id": { "type": "integer", "example": 1 },
+                        "quantity": { "type": "integer", "example": 2 },
+                        "created_at": { "type": "string", "format": "date-time", "example": "2024-06-18T13:28:18.646Z" },
+                        "updated_at": { "type": "string", "format": "date-time", "example": "2024-06-18T13:28:18.646Z" }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Cart not found"
+            }
+          }
+        }
+      },
+      "/cart/{cartId}/checkout": {
+        "post": {
+          "summary": "Checkout a cart",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "cartId",
+              "required": true,
+              "description": "ID of the cart to checkout",
+              "type": "integer"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "description": "Checkout object",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": { "type": "integer", "example": 1 },
+                  "paymentMethod": { "type": "string", "example": "credit_card" }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Checkout successful",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "msg": { "type": "string", "example": "Checkout successful" },
+                  "order": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer", "example": 1 },
+                      "user_id": { "type": "integer", "example": 1 },
+                      "status": { "type": "string", "example": "completed" },
+                      "total_amount": { "type": "number", "format": "float", "example": 59.99 },
+                      "created_at": { "type": "string", "format": "date-time", "example": "2024-06-18T13:28:18.646Z" },
+                      "updated_at": { "type": "string", "format": "date-time", "example": "2024-06-18T13:28:18.646Z" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/orders": {
+        "get": {
+          "summary": "Retrieve a list of orders",
+          "responses": {
+            "200": {
+              "description": "A list of orders",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer", "example": 1 },
+                    "user_id": { "type": "integer", "example": 1 },
+                    "status": { "type": "string", "example": "completed" },
+                    "total_amount": { "type": "number", "format": "float", "example": 59.99 },
+                    "created_at": { "type": "string", "format": "date-time", "example": "2024-06-18T13:28:18.646Z" },
+                    "updated_at": { "type": "string", "format": "date-time", "example": "2024-06-18T13:28:18.646Z" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/orders/{orderId}": {
+        "get": {
+          "summary": "Retrieve a specific order",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "orderId",
+              "required": true,
+              "description": "ID of the order to retrieve",
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "An order object",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer", "example": 1 },
+                  "user_id": { "type": "integer", "example": 1 },
+                  "status": { "type": "string", "example": "completed" },
+                  "total_amount": { "type": "number", "format": "float", "example": 59.99 },
+                  "created_at": { "type": "string", "format": "date-time", "example": "2024-06-18T13:28:18.646Z" },
+                  "updated_at": { "type": "string", "format": "date-time", "example": "2024-06-18T13:28:18.646Z" }
+                }
+              }
+            },
+            "404": {
+              "description": "Order not found"
+            }
+          }
+        }
+      }
+    }
+  }
+  
